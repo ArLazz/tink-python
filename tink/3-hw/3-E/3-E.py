@@ -8,42 +8,30 @@
 # Программа должна вывести списки смежности для каждой вершины графа в порядке возрастания их номеров.
 # Номера вершин в каждом списке разделены пробелами. Нумерация начинается с единицы.
 # Если из вершины не выходит ни одно ребро, вместо списка нужно вывести число 0.
+from collections import defaultdict
+
 
 class Graph:
     def __init__(self):
-        self.vertex = []
-        self.edges = []
-
-    def out_vertices(self):
-        return self.vertex
-
-    def out_edges(self):
-        return self.edges
-
-    def add_vertex(self, vert):
-        self.vertex.append(vert)
-
-    def add_edge(self, edge):
-        self.edges.append(edge)
-
-    def add_from_matrix(self, matrix, n):
+        self.al = defaultdict(list)
+    def pr(self):
+        for i in self.al:
+            for j in self.al[i]:
+                if j != 0:
+                    print(j, end=" ")
+                else:
+                    print(j, end=" ")
+            print()
+    def crfm(self, matrix, n):
         for i in range(n):
-            self.vertex.append(i)
+            f = True
             for j in range(n):
                 if matrix[i][j] == 1:
-                    self.edges.append([i, j])
+                    self.al[i].append(j + 1)
+                    f = False
+            if f:
+                self.al[i].append(0)
 
-    def out_list(self):
-        for i in self.vertex:
-            f = 0
-            for j in self.edges:
-                if i == j[0]:
-                    print(j[1] + 1, end=' ')
-                    f = 1
-            if f == 0:
-                print(0)
-            else:
-                print()
 
 
 g = Graph()
@@ -53,5 +41,5 @@ if 1 > n > 1000:
 m = []
 for i in range(n):
     m.append([int(j) for j in input().split()])
-g.add_from_matrix(m, n)
-g.out_list()
+g.crfm(m, n)
+g.pr()
